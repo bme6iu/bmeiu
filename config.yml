@@ -1,0 +1,160 @@
+backend:
+  name: github
+  repo: YOUR_GITHUB_USERNAME/YOUR_REPO_NAME   # ← এখানে আপনার GitHub username/repo দিন
+  branch: main
+  base_url: https://api.netlify.com           # Netlify OAuth proxy (বিনামূল্যে)
+  auth_endpoint: auth
+
+# GitHub Pages এ serve হলে এটি লাগবে
+publish_mode: editorial_workflow
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+locale: 'en'
+
+collections:
+  # ── NOTICES ──
+  - name: "notices"
+    label: "📌 Notices"
+    folder: "_data/notices"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - label: "Priority"
+        name: "priority"
+        widget: "select"
+        options: ["normal", "urgent", "new"]
+        default: "normal"
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+      - { label: "Link (optional)", name: "link", widget: "string", required: false }
+
+  # ── NEWS ──
+  - name: "news"
+    label: "📰 News"
+    folder: "_data/news"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options: ["Research", "Achievement", "Event", "Collaboration", "General"]
+      - { label: "Summary", name: "summary", widget: "text" }
+      - { label: "Full Content", name: "body", widget: "markdown", required: false }
+      - { label: "Image", name: "image", widget: "image", required: false }
+
+  # ── FACULTY ──
+  - name: "faculty"
+    label: "👩‍🏫 Faculty Members"
+    folder: "_data/faculty"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Full Name", name: "name", widget: "string" }
+      - label: "Designation"
+        name: "designation"
+        widget: "select"
+        options: ["Chairman", "Professor", "Associate Professor", "Assistant Professor", "Lecturer", "Lab Instructor"]
+      - { label: "Specialization", name: "specialty", widget: "string" }
+      - { label: "Email", name: "email", widget: "string" }
+      - { label: "Phone", name: "phone", widget: "string", required: false }
+      - { label: "Photo", name: "photo", widget: "image", required: false }
+      - { label: "Bio", name: "bio", widget: "text", required: false }
+      - { label: "Publications Count", name: "publications", widget: "number", default: 0 }
+      - { label: "Projects Count", name: "projects", widget: "number", default: 0 }
+      - { label: "Citations Count", name: "citations", widget: "number", default: 0 }
+      - { label: "Google Scholar URL", name: "scholar_url", widget: "string", required: false }
+      - { label: "ResearchGate URL", name: "rg_url", widget: "string", required: false }
+      - { label: "Order (lower = higher on page)", name: "order", widget: "number", default: 99 }
+
+  # ── COURSES ──
+  - name: "courses"
+    label: "📚 Courses"
+    folder: "_data/courses"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Course Code", name: "code", widget: "string" }
+      - { label: "Course Name", name: "name", widget: "string" }
+      - { label: "Credits", name: "credits", widget: "number" }
+      - label: "Year"
+        name: "year"
+        widget: "select"
+        options: ["1st Year", "2nd Year", "3rd Year", "4th Year", "MSc"]
+      - label: "Semester"
+        name: "semester"
+        widget: "select"
+        options: ["Odd", "Even"]
+      - { label: "Description", name: "description", widget: "text", required: false }
+
+  # ── RESEARCH COLLABORATIONS ──
+  - name: "collaborations"
+    label: "🌍 International Collaborations"
+    folder: "_data/collaborations"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "University Name", name: "name", widget: "string" }
+      - { label: "Country", name: "country", widget: "string" }
+      - { label: "Flag Emoji", name: "flag", widget: "string" }
+      - { label: "Research Area", name: "area", widget: "string" }
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options: ["Active", "MOU", "Completed"]
+      - { label: "Details", name: "details", widget: "text", required: false }
+
+  # ── STUDENT BATCHES ──
+  - name: "batches"
+    label: "🎓 Student Batches"
+    folder: "_data/batches"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Batch Year", name: "year", widget: "string" }
+      - label: "Program"
+        name: "program"
+        widget: "select"
+        options: ["BSc BME", "MSc BME"]
+      - { label: "Current Year/Semester", name: "current", widget: "string" }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Student Count", name: "count", widget: "number" }
+
+  # ── ALUMNI ──
+  - name: "alumni"
+    label: "🏆 Alumni"
+    folder: "_data/alumni"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Full Name", name: "name", widget: "string" }
+      - { label: "Batch Year", name: "batch", widget: "string" }
+      - { label: "Current Position", name: "position", widget: "string" }
+      - { label: "Organization", name: "organization", widget: "string" }
+      - { label: "Country", name: "country", widget: "string", required: false }
+      - { label: "LinkedIn URL", name: "linkedin", widget: "string", required: false }
+      - { label: "Photo", name: "photo", widget: "image", required: false }
+
+  # ── SITE SETTINGS ──
+  - name: "settings"
+    label: "⚙️ Site Settings"
+    files:
+      - label: "General Info"
+        name: "general"
+        file: "_data/settings/general.yml"
+        fields:
+          - { label: "Department Name", name: "dept_name", widget: "string" }
+          - { label: "University Name", name: "university", widget: "string" }
+          - { label: "Phone", name: "phone", widget: "string" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Address", name: "address", widget: "string" }
+          - { label: "Total Students", name: "total_students", widget: "number" }
+          - { label: "Total Faculty", name: "total_faculty", widget: "number" }
+          - { label: "International Collaborations", name: "intl_collabs", widget: "number" }
+          - { label: "Hero Headline", name: "hero_headline", widget: "string" }
+          - { label: "Hero Subtext", name: "hero_subtext", widget: "text" }
